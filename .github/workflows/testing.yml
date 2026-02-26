@@ -27,6 +27,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # Paso nuevo: Convertir el nombre del repositorio a minúsculas
+      - name: Lowercase repo name
+        run: |
+          echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -39,7 +44,7 @@ jobs:
         with:
           context: .
           push: true
-          # Reemplaza 'tu-usuario' por tu nombre de GitHub en minúsculas
+          # Usamos la variable normalizada REPO_LOWER
           tags: |
-            ghcr.io/${{ github.repository_owner }}/mi-api-notas:latest
-            ghcr.io/${{ github.repository_owner }}/mi-api-notas:${{ github.sha }}
+            ghcr.io/${{ env.REPO_LOWER }}:latest
+            ghcr.io/${{ env.REPO_LOWER }}:${{ github.sha }}
