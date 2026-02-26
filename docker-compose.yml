@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15
+    env_file: .env  # <--- Docker lee las variables de aquí
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    env_file: .env  # <--- La App también las conoce
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
