@@ -5,10 +5,13 @@ from .main import app
 client = TestClient(app)
 
 def test_read_main():
-    """Prueba que el endpoint raíz funcione"""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"status": "Online", "environment": "Development"}
+    # Asegúrate de que coincida EXACTAMENTE con lo que pusiste en el app.get("/") de main.py
+    assert response.json() == {
+        "message": "API de Notas DevOps funcionando", 
+        "db_status": "Connected"
+    }
 
 def test_create_note_positive():
     """Prueba la lógica de sentimiento positivo"""
